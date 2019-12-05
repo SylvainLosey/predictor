@@ -11,7 +11,7 @@ from clean import tokenizer
 data = pd.read_csv("data/imdb_dataset.csv")
 
 # Keep the first 500 elements to reduce build time
-data = data[:5000]
+data = data[:3000]
 
 X = data["review"]
 y = data["sentiment"]
