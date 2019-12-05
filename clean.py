@@ -1,23 +1,5 @@
-import pandas as pd
-import numpy as np
 import re
 import spacy
-
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn import metrics
-from sklearn.model_selection import train_test_split
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.utils.multiclass import unique_labels
-from sklearn.metrics import (
-    confusion_matrix,
-    plot_confusion_matrix,
-    average_precision_score,
-)
-from sklearn.metrics import precision_recall_curve, plot_precision_recall_curve
 
 sp = spacy.load("en_core_web_sm")
 
@@ -43,7 +25,6 @@ def recognize_it(this_review):
     return this_review
 
 
-# Implementing lemmatization
 def lemmatize_it(this_review):
     filtered_sent = []
 
@@ -74,6 +55,7 @@ def eliminate_stopwords(this_review):
         "very",
         "well",
     ]
+
     for word in spacy_stopwords:
         if word in remove_from_stopwordlist:
             spacy_stopwords.remove(word)
