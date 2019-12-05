@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Review Sentiment Predictor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column has-text-centered is-narrow">
+                    <h1 class="title">
+                        Movie rating Sentiment Predictor
+                    </h1>
+                    <br>
+                    <form action="{{ url_for('predict')}}" method="post">
+                        <div class="field">
+                            <div class="control">
+                                <textarea name="review" class="textarea"
+                                    placeholder="Type your movie review here"></textarea>
+                            </div>
+                        </div>
+                        <br>
+
+                        <button type="submit" class="button is-primary is-fullwidth">Predict</button>
+                    </form>
+                    <br>
+
+                    {% if is_positive %}
+                    <p style="font-size:100px">&#128513;</p>
+                    {% endif %}
+
+                    {% if is_positive is defined and not is_positive %}
+                    <p style="font-size:100px">&#128545;</p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
