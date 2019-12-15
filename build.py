@@ -1,17 +1,13 @@
 import pandas as pd
-import joblib
+from joblib import dump
 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
-from clean import tokenizer
-
-data = pd.read_csv("data/imdb_dataset.csv")
-
-# Keep the first 500 elements to reduce build time
-data = data[:3000]
+data = pd.read_csv("data/extremely_clean_dataset.csv")
+data = data[:48000]
 
 X = data["review"]
 y = data["sentiment"]
@@ -20,16 +16,24 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=72
 )
 
-classifier = LogisticRegression(solver="lbfgs")
+vectorizer = CountVectorizer(ngram_range=(1, 2))
 
-vectorizer = CountVectorizer(tokenizer=tokenizer, ngram_range=(1, 2))
+classifier = LogisticRegression(
+    C=0.23357214690901212,
+    l1_ratio=None,
+    multi_class="auto",
+    n_jobs=None,
+    penalty="l2",
+    solver="liblinear",
+    tol=0.0001,
+    verbose=0,
+    warm_start=False,
+)
 
-# Create pipeline using Bag of Words
 pipe = Pipeline([("vectorizer", vectorizer), ("classifier", classifier)])
 
-# Fit Model
 pipe.fit(X_train, y_train)
 print("Test set accuracy is: " + str(pipe.score(X_test, y_test)))
 
-# Save as file
-joblib.dump(pipe, "model.pkl")
+# Save model
+dump(pipe, "model.joblib")

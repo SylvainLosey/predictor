@@ -1,13 +1,10 @@
-import joblib
-
+from joblib import load
 from flask import Flask, request, render_template
-
-from clean import tokenizer
 
 app = Flask(__name__)
 
 # Import trained model
-model = joblib.load("model.pkl")
+model = load("model.joblib")
 
 
 @app.route("/")
@@ -18,9 +15,7 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     review = request.form["review"]
-
     prediction = model.predict([review])
-
     is_positive = prediction[0] == "positive"
 
     return render_template("index.html", is_positive=is_positive)
